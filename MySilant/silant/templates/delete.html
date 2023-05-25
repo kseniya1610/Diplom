@@ -1,0 +1,14 @@
+{% extends 'default.html' %}
+{% load bootstrap5 %}
+
+
+{% block content %}
+
+    <h4 class="center">Вы действительно хотите удалить эту запись?</h4>
+    <form class="center" method="POST">
+        {% csrf_token %}
+        <a class="button medium" href="{{ request.get_full_path|slice:':-7' }}" role="button">Отмена</a>
+        <button type="submit" class="button medium" style="background: red; color: black">Удалить</button>
+    </form>
+
+{% endblock content %}

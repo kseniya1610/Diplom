@@ -1,0 +1,78 @@
+{% load static %}
+{% load auth_extras %}
+
+<html lang="en">
+	<head>
+		<title>
+			Мой Силант (
+			{% if user.is_authenticated %}
+				{{ user.username }}
+			{% else %}
+				Неавторизованный пользователь
+			{% endif %})
+		</title>
+		<meta charset="utf-8">
+
+		<!--1920x1080, 1366x768, 1536x864, 1440x900, 360x640-->
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		<link rel="stylesheet" media="screen and (max-width: 360px) " href="/static/css/mobile.css"/>
+		<link rel="stylesheet" media="screen and (min-width: 361px) and (max-width: 767.8px)" href="/static/css/360.css"/>
+		<link rel="stylesheet" media="screen and (min-width: 767.9px) and (max-width: 1365px)" href="/static/css/760.css"/>
+		<link rel="stylesheet" media="screen and (min-width: 1366px) and (max-width: 1535px)" href="/static/css/1366.css"/>
+		<link rel="stylesheet" media="screen and (min-width: 1536px)" href="/static/css/1536.css"/>
+		<link sizes="76x76" rel="apple-touch-icon" href="/static/images/apple-touch-icon-76x76.png">
+		<link type="image/png" sizes="96x96" rel="icon" href="/static/images/favicon-96x96.png">
+<!--		<link type="image/x-icon" rel="shortcut icon" href="/static/images/favicon.ico">-->
+		{% block head %} {% endblock head %}
+
+		{% load bootstrap5 %}
+		{% block bootstrap_css %}{% endblock bootstrap_css %}
+<!--		{% bootstrap_css %}-->
+
+	</head>
+<body>
+
+<div class="wrapper">
+	<header>
+		<div class="header">
+			<div class="header_top">
+				<div class="logo">
+					<a href="{% url 'info' %}"><img class='header_logo' src="{% static 'images/Logotype silant.jpg' %}"></a>
+				<p class="header_contact">+7-966-329-54-60, telegram</p>
+				</div>
+				<div id="account_menu" class="account_menu">
+					{% if user.is_authenticated %}
+						{% if request.user|has_group:"admin" %}
+							<a class="button slim" href="{% url 'account_list' %}" role="button">аккаунты</a>
+						{% endif %}
+						<a class="button slim" style='margin: 5px 12px;' href="/accounts/logout/" role="button">выйти</a>
+					{% else %}
+						<a class="button slim" href="/accounts/login/" role="button">авторизация</a>
+					{% endif %}
+				</div>
+			</div>
+			{% include "fragments/username_group.html" %}
+			<p class="center">Электронная сервисная книга "Мой Силант"</p>
+
+		</div>
+	</header>
+	<main>
+		<div class="main">
+		{% block content %} {% endblock content %}
+		</div>
+	</main>
+	<footer>
+		<div class="footer">+7-966-329-54-60, telegram</div>
+		<div class="footer">Мой Силант {% now "Y" %}</div>
+	</footer>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+

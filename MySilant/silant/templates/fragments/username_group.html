@@ -1,0 +1,20 @@
+{% load auth_extras %}
+{% if user.is_authenticated %}
+    <div class="center">
+        <div><b>Логин:</b> {{ user.username }}&emsp;</div>
+        <div>
+            <b>Роль:</b>
+            {% if request.user|has_group:"client" %}
+                Клиент
+            {% elif request.user|has_group:"service" %}
+                Сервисная компания
+            {% elif request.user|has_group:"manager" %}
+                Менеджер
+            {% elif request.user|has_group:"admin" %}
+                Администратор
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+        <div class="center"><p>Вы не авторизовались</p></div>
+{% endif %}

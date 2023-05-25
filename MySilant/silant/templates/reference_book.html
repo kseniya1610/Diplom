@@ -1,0 +1,43 @@
+{% extends 'default.html' %}
+{% load auth_extras %}
+
+{% block content %}
+
+        {% if request.user|has_group:"manager" or request.user|has_group:"admin" %}
+            <div>
+                <h4 class="center">Справочники раздела "Машины"</h4>
+                <div class="center">
+                    <a class="button medium" style="width: 270px"
+                           href="{% url 'reference_book' %}1/" role="button">Модель техники</a>
+                    <a class="button medium" style="width: 270px"
+                           href="{% url 'reference_book' %}2/" role="button">Модель двигателя</a>
+                </div>
+                <div class="center">
+                    <a class="button medium" style="width: 270px"
+                           href="{% url 'reference_book' %}3/" role="button">Модель трансмиссии</a>
+                    <a class="button medium" style="width: 270px"
+                           href="{% url 'reference_book' %}4/" role="button">Модель ведущего моста</a>
+                </div>
+                <div class="center">
+                    <a class="button medium" style="width: 270px"
+                           href="{% url 'reference_book' %}5/" role="button">Модель управляемого моста</a>
+                    <a class="button medium" style="width: 270px"
+                           href="{% url 'reference_book' %}6/" role="button">Сервисная организация</a>
+                </div>
+                <h4 class="center">Справочник раздела "ТО"</h4>
+                <div class="center">
+                    <a class="button medium" style="width: 270px"
+                        href="{% url 'reference_book' %}7/" role="button">Вид ТО</a>
+                </div>
+                <h4 class="center">Справочники раздела "Рекламации"</h4>
+                <div class="center">
+                    <a class="button medium" style="width: 270px"
+                       href="{% url 'reference_book' %}8/" role="button">Характер отказа</a>
+                    <a class="button medium" style="width: 270px"
+                       href="{% url 'reference_book' %}9/" role="button">Способ восстановления</a>
+                </div>
+            </div><br><br>
+        {% endif %}
+
+{% endblock content %}
+

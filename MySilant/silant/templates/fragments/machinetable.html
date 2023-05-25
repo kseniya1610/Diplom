@@ -1,0 +1,43 @@
+        <table>
+        <tr>
+            <th><a href="?order_by=factory_number">Номер машины</a><br>
+            <th><a href="?order_by=technique_model">Mодель техники</a></th>
+            <th><a href="?order_by=engine_model">Модель двигателя</a></th>
+            <th><a href="?order_by=engine_number">№ двигателя</a></th>
+            <th><a href="?order_by=transmission_model">модель трансмиссии</a></th>
+            <th><a href="?order_by=transmission_number">№ трансмиссии</a></th>
+            <th><a href="?order_by=drive_axle_model">модель ведущего моста</a></th>
+            <th><a href="?order_by=drive_axle_number">№ ведущего моста</a></th>
+            <th><a href="?order_by=steerable_axle_model">модель управляемого моста</a></th>
+            <th><a href="?order_by=steerable_axle_number">№ управляемого моста</a></th>
+            <th><a href="?order_by=supply_contract">договор поставки №, дата.</a></th>
+            <th><a href="?order_by=date_of_shipment_from_the_factory">Дата отгрузки с завода</a></th>
+            <th><a href="?order_by=consignee">Грузополучатель</a></th>
+            <th><a href="?order_by=delivery_address">Адрес поставки (эксплуатации)</a></th>
+            <th><a href="?order_by=equipment">Комплектация (доп. опции)</a></th>
+            <th><a href="?order_by=client">Клиент</a></th>
+            <th><a href="?order_by=service_company">Сервисная организация</a></th>
+        </tr>
+        {% for machine in machines %}
+            <tr class="table_tr" >
+                <td><a href="/info/{{ machine.id }}">{{ machine.factory_number }}</a><br>
+                    <a href="/info/{{ machine.id }}">{{ machine.technique_model }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.technique_model }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.engine_model }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.engine_number }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.transmission_model }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.transmission_number }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.drive_axle_model }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.drive_axle_number }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.steerable_axle_model }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.steerable_axle_number }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.supply_contract }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.date_of_shipment_from_the_factory|date:"d.m.Y" }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.consignee }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.delivery_address }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.equipment }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.client }}</a></td>
+                <td><a href="/info/{{ machine.id }}">{{ machine.service_company }}</a></td>
+            </tr>
+        {% endfor %}
+        </table>

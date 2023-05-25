@@ -1,0 +1,16 @@
+{% extends 'default.html' %}
+{% load bootstrap5 %}
+
+{% block content %}
+<script>document.getElementById('account_menu').remove();</script>
+<br><br>
+<div class="center"><h3>Подтвердите выход из аккаунта</h3></div>
+<div class="center">
+  <form method="post" action="{% url 'account_logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="button medium">Выйти</button>
+  </form>
+  <input type=button value="Отмена" class="button medium" onClick="javascript:history.go(-1);">&nbsp
+</div>
+
+{% endblock %}

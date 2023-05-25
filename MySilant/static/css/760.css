@@ -1,0 +1,13 @@
+html {
+  font-size: 17px;
+}
+.account_menu {
+    flex-direction: column;
+}
+
+.button.slim {
+    font-size: 13px;
+}
+.button_menu {
+    font-size: 21px;
+}

@@ -1,0 +1,24 @@
+{% extends 'default.html' %}
+{% load bootstrap5 %}
+{% block bootstrap_css %}{% bootstrap_css %}{% endblock bootstrap_css %}
+{% load auth_extras %}
+
+
+{% block content %}
+
+<h5 class="center">Измените данные:</h5>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form layout='horizontal' %}
+        <div class="center">
+            {% buttons %}
+            {% url 'index' as temporary_url %}
+            <a class="button medium" href="{{ request.path|slice:':-5' }}" role="button">Отмена</a>
+            <button type="submit" class="button medium">Сохранить</button>
+<!--            <a class="button medium" style="color:red" href="{{ request.path }}/password" role="button">Сменить пароль</a>-->
+
+            {% endbuttons %}
+        </div>
+    </form>
+
+{% endblock content %}

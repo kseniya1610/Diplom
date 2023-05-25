@@ -1,0 +1,33 @@
+{% extends 'default.html' %}
+{% load auth_extras %}
+{% load bootstrap5 %}
+
+{% block content %}
+
+<h4 class="center">Данные аккаунта {{ user_item.username }}:</h4>
+
+<div class="center">
+    <div class="column">
+         <p><b>Логин:</b></p>
+         <p><b>Имя: </b></p>
+         <p><b>E-mail: </b></p>
+         <p><b>Роль: </b></p>
+    </div>
+        <div class="column">
+         <p>{{ user_item.username }}</p>
+         <p>{% if user_item.first_name %}{{ user_item.first_name }}{% else %}Отсутствует{% endif %}</p>
+         <p>{% if user_item.email %}{{ user_item.email }}{% else %}Отсутствует{% endif %}</p>
+         <p>{{ user_item.groups.all.0 }}</p>
+    </div>
+</div>
+
+
+<br>
+<div class="center">
+    <a href="{% url 'account_list' %}" class="button medium">Назад</a>
+    <a href="{{ request.path }}/edit" class="button medium">Редактировать</a>
+</div>
+
+
+
+{% endblock content %}

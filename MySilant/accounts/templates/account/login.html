@@ -1,0 +1,17 @@
+{% extends 'default.html' %}
+{% load bootstrap5 %}
+{% block bootstrap_css %}{% bootstrap_css %}{% endblock bootstrap_css %}
+
+{% block content %}
+<script>document.getElementById('account_menu').remove();</script>
+<br><br>
+<div class="center">
+  <div class="col-sm-8">
+    <form class="login" method="POST" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      {% bootstrap_form form layout='horizontal' %}
+      <button type="submit" class="button slim">Войти</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

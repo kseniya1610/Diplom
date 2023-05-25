@@ -1,0 +1,19 @@
+html {
+  font-size: 15px;
+}
+
+.account_menu {
+    flex-direction: column;
+}
+.button.slim {
+    font-size: 11px;
+}
+
+.left-right {
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+    flex-wrap: wrap;
+}
+
+.button_menu {
+    font-size: 16px;
+}

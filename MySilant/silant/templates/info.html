@@ -1,0 +1,131 @@
+{% extends 'default.html' %}
+{% load auth_extras %}
+{% load static %}
+
+
+{% block content %}
+
+    <script src="{% static 'js/info.js' %}"></script>
+
+    <div class="div_full_horizontal_content_space_around">
+        <a class="button_menu active" href="{% url 'info' %}" role="button">Машины</a>
+        <a class="button_menu" href="{% url 'maintenance' %}" role="button">ТО</a>
+        <a class="button_menu" href="{% url 'reclamations' %}" role="button">Рекламации</a>
+    </div>
+
+    <h4 class="center">Информация о комплектации и технических<br>характеристиках вашей техники</h4>
+
+    <div class="left-right-wrap">
+        <div class="div_item_filter">
+            <span class="select_name">машина</span>
+            <select class="select_filter" onchange="setFilter_te(this.value);">
+                <option value="{{ te }}">&nbsp;{{ te }}&nbsp;</option>
+                {% for item in technique_model %}
+                    <option value="{{ item }}">&nbsp;{{ item }}&nbsp;</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="div_item_filter">
+            <span class="select_name">двигатель</span>
+            <select class="select_filter" onchange="setFilter_en(this.value);">
+                <option value="{{ en }}">&nbsp;{{ en }}&nbsp;</option>
+                {% for item in engine_model %}
+                    <option value="{{ item }}">&nbsp;{{ item }}&nbsp;</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="div_item_filter">
+            <span class="select_name">трансмиссия</span>
+            <select class="select_filter" onchange="setFilter_tr(this.value);">
+                <option value="{{ tr }}">&nbsp;{{ tr }}&nbsp;</option>
+                {% for item in transmission_model %}
+                    <option value="{{ item }}">&nbsp;{{ item }}&nbsp;</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="div_item_filter">
+            <span class="select_name">вед. мост</span>
+            <select class="select_filter" onchange="setFilter_da(this.value);">
+                <option value="{{ da }}">&nbsp;{{ da }}&nbsp;</option>
+                {% for item in drive_axle_model %}
+                    <option value="{{ item }}">&nbsp;{{ item }}&nbsp;</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="div_item_filter">
+            <span class="select_name">упр. мост</span>
+            <select class="select_filter" onchange="setFilter_sa(this.value);">
+                <option value="{{ sa }}">&nbsp;{{ sa }}&nbsp;</option>
+                {% for item in steerable_axle_model %}
+                    <option value="{{ item }}">&nbsp;{{ item }}&nbsp;</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="div_item_filter">
+            <a title="Очистить фильтры" class="button_reset" href="" role="button" onclick="reset(); return false">сбросить</a>
+        </div>
+    </div>
+
+
+    {% if cars %}
+        <table class="small_font">
+        <tr>
+            <th><a title="Сортировать" href="#" onclick="setOrder_by('?order_by=factory_number'); return false" >&#9650; </a>№ маш.<br>
+                <a title="Сортировать" href="#" onclick="setOrder_by('?order_by=technique_model'); return false" >&#9650; </a>Mодель</th>
+            <th><a title="Сортировать" href="#" onclick="setOrder_by('?order_by=engine_model'); return false" >&#9650; </a>Модель двиг.<br>
+                <a title="Сортировать" href="#" onclick="setOrder_by('?order_by=engine_number'); return false" >&#9650; </a>№ двигателя</th>
+            <th><a title="Сортировать" href="#" onclick="setOrder_by('?order_by=transmission_model'); return false" >&#9650; </a>Модель трансм.<br>
+                <a title="Сортировать" href="#" onclick="setOrder_by('?order_by=transmission_number'); return false" >&#9650; </a>№ трансмиссии</th>
+            <th><a title="Сортировать" href="#" onclick="setOrder_by('?order_by=drive_axle_model'); return false" >&#9650; </a>Модель вед. моста<br>
+                <a title="Сортировать" href="#" onclick="setOrder_by('?order_by=drive_axle_number'); return false" >&#9650; </a>№ ведущего моста</th>
+            <th><a title="Сортировать" href="#" onclick="setOrder_by('?order_by=steerable_axle_model'); return false" >&#9650; </a>Мод. упр-го моста<br>
+                <a title="Сортировать" href="#" onclick="setOrder_by('?order_by=steerable_axle_number'); return false" >&#9650; </a>№ упр-го моста</th>
+            <th><a title="Сортировать" href="#" onclick="setOrder_by('?order_by=supply_contract'); return false" >&#9650; </a>Дог. поставки.<br>
+                <a title="Сортировать" href="#" onclick="setOrder_by('?order_by=date_of_shipment_from_the_factory'); return false" >&#9650; </a>Дата отгрузки</th>
+            <th><a title="Сортировать" href="#" onclick="setOrder_by('?order_by=consignee'); return false" >&#9650; </a>Грузополучатель<br>
+                <a title="Сортировать" href="#" onclick="setOrder_by('?order_by=delivery_address'); return false" >&#9650; </a>Адрес поставки</th>
+            <th><a title="Сортировать" href="#" onclick="setOrder_by('?order_by=equipment'); return false" >&#9650; </a>Комплектация<br>(доп. опции)</th>
+            <th><a title="Сортировать" href="#" onclick="setOrder_by('?order_by=client'); return false" >&#9650; </a>Клиент<br>
+                <a title="Сортировать" href="#" onclick="setOrder_by('?order_by=service_company'); return false" >&#9650; </a>Сервисная организация</th>
+        </tr>
+        {% for machine in machines %}
+            <tr onclick="window.location.href='/info/{{ machine.id }}'; return false" class="table_tr">
+                <td class="td_slim">{{ machine.factory_number }}<br>
+                    {{ machine.technique_model }}</td>
+                <td class="td_slim">{{ machine.engine_model }}<br>
+                    {{ machine.engine_number }}</td>
+                <td class="td_slim">{{ machine.transmission_model }}<br>
+                    {{ machine.transmission_number }}</td>
+                <td class="td_slim">{{ machine.drive_axle_model }}<br>
+                    {{ machine.drive_axle_number }}</td>
+                <td class="td_slim">{{ machine.steerable_axle_model }}<br>
+                    {{ machine.steerable_axle_number }}</td>
+                <td class="td_slim">{% if machine.supply_contract %}{{ machine.supply_contract }}{% else %}Отсутствует{% endif %}<br>
+                    {% if machine.date_of_shipment_from_the_factory %}{{ machine.date_of_shipment_from_the_factory|date:"d.m.Y" }}
+                    {% else %}Отсутствует{% endif %}</td>
+                <td class="td_slim">{% if machine.consignee %}{{ machine.consignee }}{% else %}Отсутствует{% endif %}<br>
+                    {% if machine.delivery_address %}{{ machine.delivery_address }}{% else %}Отсутствует{% endif %}</td>
+                <td class="td_slim">{% if machine.equipment %}{{ machine.equipment }}{% else %}Отсутствует{% endif %}</td>
+                <td class="td_slim">{% if machine.client %}{{ machine.client }}{% else %}Отсутствует{% endif %}<br>
+                    {% if machine.service_company %}{{ machine.service_company }}{% else %}Отсутствует{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </table>
+        {% if request.user|has_group:"manager" or request.user|has_group:"admin" %}
+            <div class="center">
+                <a class="button slim" href="{% url 'create_machine' %}" role="button">Добавить запись</a>
+                <a class="button slim" href="{% url 'reference_book' %}" role="button">Редактор справочников</a>
+            </div>
+        {% endif %}
+    {% else %}
+        <h4 class="center">Нет записей о ваших машинах, которые соответствуют запросу.</h4>
+
+        {% if request.user|has_group:"manager" or request.user|has_group:"admin" %}
+            <div class="center">
+                <a class="button slim" href="{% url 'create_machine' %}" role="button">Добавить первую запись о машине</a>
+                <a class="button slim" href="{% url 'reference_book' %}" role="button">Редактор справочников</a>
+            </div>
+        {% endif %}
+
+    {% endif %}
+{% endblock content %}

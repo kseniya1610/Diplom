@@ -1,0 +1,40 @@
+{% extends 'default.html' %}
+{% load bootstrap5 %}
+{% block bootstrap_css %}{% bootstrap_css %}{% endblock bootstrap_css %}
+{% load auth_extras %}
+
+
+{% block content %}
+    <div class="left-right">
+        <p class="select_machine">Выберите машину</p>
+        <select class="form-select" style='margin: 0 0 5px 25px;' onchange="window.location.href = this.value">
+            <option value="{{select_machine.id}}">{{ select_machine }}</option>
+            {% for car in machines %}
+                {% if car.id != select_machine.id %}
+                    <option value="?id={{machine.id}}">{{ machine.factory_number }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+<!--    {{ select_car.service_company }}-->
+<!--    {% if select_car.service_company == None %}-->
+<!--        <h6 class="center">Для обслуживания данной машины пока не назначена сервисная компания</h6>-->
+<!--        <p>Постановку машины на обслуживание в сервисную компанию может сделать менеджер параметрах машины</p>-->
+<!--    {% else %}-->
+<!--        <h6 class="center">Данная машина находится на обслуживании сервисной компании {{ select_machine.service_company }}</h6>-->
+<!--        <p>Если требуется изменить сервисную компанию, обратитесь к администратору</p>-->
+<!--    {% endif %}-->
+
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form layout='horizontal' %}
+        <div class="center">
+            {% buttons %}
+            <a class="button medium" href="{% url 'maintenance' %}" role="button">Отмена</a>
+            <button type="submit" class="button medium">Сохранить</button>
+            {% endbuttons %}
+        </div>
+    </form>
+
+{% endblock content %}

@@ -1,0 +1,104 @@
+{% extends 'default.html' %}
+{% load auth_extras %}
+
+{% block content %}
+
+    <div class="div_full_horizontal_content_space_around">
+        <a class="button_menu " href="{% url 'info' %}" role="button">Машины</a>
+        <a class="button_menu" href="{% url 'maintenance' %}" role="button">ТО</a>
+        <a class="button_menu active" href="{% url 'reclamations' %}" role="button">Рекламации</a>
+    </div>
+    {% if reclamations %}
+        <h4 class="center">Информация о рекламациях вашей техники:</h4>
+    {% endif %}
+
+
+
+    <div class="left-right-wrap">
+        <div class="div_item_filter">
+            <span class="select_name">сервисная компания</span>
+            <select class="select_filter" onchange="window.location.assign('?sc=' + this.value);">
+                <option value="{{ sc }}">&nbsp;{{ sc }}&nbsp;</option>
+                {% for item in service_company %}
+                    <option value="{{ item }}">&nbsp;{{ item }}&nbsp;</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="div_item_filter">
+            <span class="select_name">узел отказа</span>
+            <select class="select_filter" onchange="window.location.assign('?fn=' + this.value);">
+                <option value="{{ fn }}">&nbsp;{{ fn }}&nbsp;</option>
+                {% for item in failure_node %}
+                    <option value="{{ item }}">&nbsp;{{ item }}&nbsp;</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="div_item_filter">
+            <span class="select_name">способ восстановления</span>
+            <select class="select_filter" onchange="window.location.assign('?rm=' + this.value);">
+                <option value="{{ rm }}">&nbsp;{{ rm }}&nbsp;</option>
+                {% for item in recovery_method %}
+                    <option value="{{ item }}">&nbsp;{{ item }}&nbsp;</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="div_item_filter">
+            <a title="Очистить фильтры" class="button_reset" href="?clear=clear" role="button">сбросить</a>
+        </div>
+    </div>
+
+
+    {% if reclamations %}
+        <table class="small_font">
+        <tr>
+            <th><a title="Сортировать" href="?order_by=machine">&#9650; </a>Машина<br>
+                <a title="Сортировать" href="?order_by=service_company">&#9650; </a>Сервисная организация</th>
+            <th><a title="Сортировать" href="?order_by=date_of_refusal">&#9650; </a>Дата отказа<br>
+                <a title="Сортировать" href="?order_by=operating_time">&#9650; </a>Наработка</th>
+            <th><a title="Сортировать" href="?order_by=failure_node">&#9650; </a>Узел отказа<br>
+                <a title="Сортировать" href="?order_by=description_failure">&#9650; </a>Характер отказа</th>
+            <th><a title="Сортировать" href="?order_by=recovery_method">&#9650; </a>Способ восстановления<br>
+                <a title="Сортировать" href="?order_by=parts_used">&#9650; </a>Используемые запасные части</th>
+            <th><a title="Сортировать" href="?order_by=date_of_restoration">&#9650; </a>Дата восстановления<br>
+                <a title="Сортировать" href="?order_by=equipment_downtime">&#9650; </a>Время простоя техники</th>
+        </tr>
+        {% for reclamation in reclamations %}
+            <tr onclick="window.location.href='/reclamations/{{ reclamation.id }}'; return false" class="table_tr">
+                <td class="td_slim">{{ reclamation.machine }}<br>
+                    {{ reclamation.service_company }}</td>
+                <td class="td_slim">{{ reclamation.date_of_refusal|date:"d.m.Y" }}<br>
+                    {{ reclamation.operating_time }}</td>
+                <td class="td_slim">{{ reclamation.failure_node }}<br>
+                    {{ reclamation.description_failure }}</td>
+                <td class="td_slim">{{ reclamation.recovery_method }}<br>
+                    {{ reclamation.parts_used }}</td>
+                <td class="td_slim">{{ reclamation.date_of_restoration|date:"d.m.Y" }}<br>
+                    {{ reclamation.equipment_downtime }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+
+        <div class="center">
+            {% if reclamations %}
+                {% if request.user|has_group:"service" or request.user|has_group:"manager" or request.user|has_group:"admin" %}
+                    <a class="button slim" href="{% url 'create_reclamations' %}" role="button">Добавить запись</a>
+                {% endif %}
+            {% endif %}
+            {% if request.user|has_group:"manager" or request.user|has_group:"admin" %}
+                <a class="button slim" href="{% url 'reference_book' %}" role="button">Редактор справочников</a>
+            {% endif %}
+        </div>
+
+    {% else %}
+        <h4 class="center">Нет записей о рекламациях ваших машин, соответствующих запросу.</h4>
+    <div class="center">
+        {% if request.user|has_group:"service" or request.user|has_group:"manager" or request.user|has_group:"admin" %}
+            <a class="button slim" href="{% url 'create_reclamations' %}" role="button">Добавить первую запись о рекламации</a>
+        {% endif %}
+        {% if request.user|has_group:"manager" or request.user|has_group:"admin" %}
+            <a class="button slim" href="{% url 'reference_book' %}" role="button">Редактор справочников</a>
+        {% endif %}
+    </div>
+
+    {% endif %}
+{% endblock content %}
